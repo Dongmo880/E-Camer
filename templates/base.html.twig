@@ -33,17 +33,22 @@
 <body>
 <header>
     {{ include('layouts/_nav.html.twig') }}
+    {{include('layouts/_flashMessage.html.twig')}}
 </header>
 <main role="main">
+
+    {% if block('carousel') is defined %}
     {{ include('layouts/_carousel.html.twig') }}
-    <div class="container marketing">
+    {% endif %}
+
+    <div class="container marketing {% if block('carousel') is not defined %} mt-5{% endif %}">
        {% block content %}
        {% endblock %}
     </div><!-- /.container -->
     <!-- FOOTER -->
     <footer class="container">
         <p class="float-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2017-2020 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        <p>&copy; 2020-2022 WD&N Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
     </footer>
 </main>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
