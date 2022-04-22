@@ -21,11 +21,27 @@ class RegisterType extends AbstractType
         $builder
             ->add('firstname',TextType::class,[
                 'label'=>'Votre prénom',
+                'constraints' => [
+                    new Length([
+                        'min' => 3,
+                        'minMessage' => 'votre prénom doit pas etre inferieure à {{limit}}',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 32,
+                    ]),
+                ],
                 'attr'=>[
                     'placeholder'=>"Merci de saisir votre prénom"
                 ]
             ]) ->add('lastname',TextType::class,[
                 'label'=>'Votre  nom',
+                'constraints' => [
+                    new Length([
+                        'min' => 3,
+                        'minMessage' => 'votre nom ne doit pas etre inferieure à {{limit}}',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 32,
+                    ]),
+                ],
                 'attr'=>[
                     'placeholder'=>"Merci de saisir votre nom"
                 ]
@@ -51,9 +67,15 @@ class RegisterType extends AbstractType
                     ]),
                 ],
                 'label' => 'Votre mot de passe',
+                'attr'=>[
+                    'placeholder'=>"Merci de saisir votre mot de passe"
+                ]
             ],
             'second_options' => [
                 'label' => 'Confirmez votre mot de passe ',
+                'attr'=>[
+                    'placeholder'=>"Merci de confirmez  votre mot de passe"
+                ]
             ],
             'invalid_message' => 'les deux mots doivent etre identiques',
             'mapped' => false,
