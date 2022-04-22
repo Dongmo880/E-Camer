@@ -62,8 +62,6 @@ class ChangePasswordType extends AbstractType
                 'invalid_message' => 'les deux mots doivent etre identiques',
                 'mapped' => false,
             ])
-//            ->add('firstname')
-//            ->add('lastname')
         ;
     }
 
