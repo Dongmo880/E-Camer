@@ -1,20 +1,31 @@
 {% extends 'base.html.twig' %}
 {% block title %}Produit_E-Camer{% endblock %}
 {% block body %}
-    <h1>Nos Produits</h1>
-    <div class="row product-container">
-        {% for product in products%}
-                <div class="col-md-4">
-                    <div class="product-item">
-                        <a href="{{ path("app_product_show",{'slug':product.slug}) }}"><img src="/uploads/{{ product.illustration }}" alt="{{ product.name }}" class="img-fluid"></a>
-                        <h5 class="text-center mt-2">{{ product.name }}</h5>
-                        <div class="text-center mb-5">
-                            <span class="product-subtitle text-center">{{ product.subtitle }}</span>
-                            <span class="font-weight-bold text-center">{{ (product.price /100) | number_format(2,'.')}}€</span>
-                        </div>
+    <div class="row">
+        <div class="col-md-3">
+            <h3>Filtrer</h3>
+            {{ form(form) }}
+        </div>
+        <div class="col-md-9">
+            <h1>Nos Produits</h1>
+            <div class="row product-container">
+                {% for product in products %}
+                    <div class="col-md-4">
 
+                        <div class="product-item">
+                            <a href="{{ path("app_product_show",{'slug':product.slug}) }}"><img
+                                        src="/uploads/{{ product.illustration }}" alt="{{ product.name }}"
+                                        class="img-fluid"></a>
+                            <h5 class="text-center mt-2">{{ product.name }}</h5>
+                            <div class="text-center mb-5">
+                                <span class="product-subtitle text-center">{{ product.subtitle }}</span>
+                                <span class="font-weight-bold text-center">{{ (product.price /100) | number_format(2,'.') }}€</span>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
-        {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}
