@@ -1,4 +1,4 @@
-body {
+body{
     position: relative;
 }
 .navbar-item-custom, .navbar-item-custom a{
@@ -7,9 +7,9 @@ body {
 .footer-custom{
     text-align: center;
     position: absolute;
-    bottom: 0;
     width: 100%;
     background-color: #dfeaff;
+    padding-top: 25px;
 
 }
 .product-item{
