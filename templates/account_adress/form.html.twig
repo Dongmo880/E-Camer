@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une adresse_E-camer{% endblock %}
+{% block body %}
+    <h2>Gerer Mes adresse</h2>
+    <a href="{{ path('app_account_address') }}" class="text-decoration-none">Retourner</a>
+    <hr>
+    <div class="row">
+        <div class="col-12">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-6 font-weight-bold">
+                    {{ form_row(form.name) }}
+                </div>
+                <div class="col-md-6 font-weight-bold">
+                    {{ form_row(form.firstname) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 font-weight-bold">
+                    {{ form_row(form.lastname) }}
+                </div>
+                <div class="col-md-6 font-weight-bold">
+                    {{ form_row(form.company) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 font-weight-bold">
+                    {{ form_row(form.country) }}
+                </div>
+                <div class="col-md-6 font-weight-bold">
+                    {{ form_row(form.postal) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 font-weight-bold">
+                    {{ form_row(form.city) }}
+                </div>
+                <div class="col-md-6 font-weight-bold">
+                    {{ form_row(form.adresse) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 font-weight-bold">
+                    {{ form_row(form.ComplementAdresss) }}
+                </div>
+                <div class="col-md-6 font-weight-bold">
+                    {{ form_row(form.phone) }}
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
