@@ -14,7 +14,7 @@
             <p>
                 {{ product.decription }}
             </p>
-            <a href="" class="btn btn-primary btn-sm">Ajouter au panier</a>
+            <a href="{{ path('app_cart_add',{'id':product.id}) }}" class="btn btn-primary btn-sm">Ajouter au panier</a>
         </div>
     </div>
 {% endblock %}

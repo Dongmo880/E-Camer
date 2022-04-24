@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier - E-camer{% endblock %}
+
+{% block body %}
+    <h3>Mon panier</h3>
+    Retrouver l'ensemble des produits que vous avez ajoutés
+    {% if cart|length >0 %}
+        <table class="table mt-5">
+            <thead>
+            <tr>
+                <th scope="col">Produit</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Total</th>
+                <th scope="col"></th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% set total = null %}
+            {% for product in cart %}
+                <tr>
+                    <td>
+                        <img src="uploads/{{ product.product.illustration }}" alt="{{ product.product.illustration }}" height="75px"><br/>
+
+                    </td>
+                    <td>
+                        {{ product.product.name }}<br/>
+                        <small>{{ product.product.subtitle }}</small>
+                    </td>
+
+                    <td>
+                        <a href="{{ path('app_decrease_to_cart',{'id':product.product.id} ) }}">
+                            <img src="{{ asset('IMAGES/moins.png') }}" alt="suprimer mon produit" height="12px" class="m-2">
+                        </a>
+                        <b>x{{ product.quantity  }}</b>
+                        <a href="{{ path('app_cart_add',{'id':product.product.id} ) }}">
+                            <img src="{{ asset('IMAGES/plus.png') }}" alt="ajouter mon produit" height="12px" class="m-2">
+                        </a>
+
+                    </td>
+                    <td>{{ ( product.product.price/100) | number_format(2,'.') }}</td>
+                    <td>{{ ((product.product.price*product.quantity)/100) | number_format(2,'.') }}</td>
+                    <td>
+                        <a href="{{ path('app_delete_produit_to_card',{'id':product.product.id}) }}">
+                            <img src="{{ asset('IMAGES/trash.png') }}" alt="suprimer le produit" height="20px">
+                        </a>
+
+                    </td>
+                </tr>
+                {% set total = total + (product.product.price*product.quantity) %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-right">
+            <b>Nombre de produit: {{ cart|length }}</b><br/>
+            <b>Total de mon panier: {{ (total)/100 | number_format(2,'.') }}€</b><br/>
+            <a href="" class="btn btn-success mt-3">Valider mon panier</a>
+        </div>
+        {% else %}
+        <p><b>Votre panier est vide</b></p>
+    {% endif %}
+
+
+{% endblock %}
