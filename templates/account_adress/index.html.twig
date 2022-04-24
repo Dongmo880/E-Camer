@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mes adresse_E-camer{% endblock %}
+{% block body %}
+    <a href="{{ path('app_account_adress_add') }}" class="btn btn-info float-right">Ajouter une adresse</a>
+    <h2>Mes adresses</h2>
+    C'est dans cet espace que vous allez  tous vos adresses
+    <a href="{{ path('app_account') }}" class="text-decoration-none">Retourner</a>
+    <hr>
+    {% if app.user.addresses|length == 0 %}
+        <p class="text-center">
+            Vous n'avez pas encore ajouté d'adresse dans votre compte classe. Pour en ajoutez veuillez <a href="#" class="text-decoration-none">cliquer sur ce lien</a><br/>
+        </p>
+    {% endif %}
+    <div class="row">
+        {% for adresse in app.user.addresses %}
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ adresse.name }}</h5>
+                        <p class="card-text">{{ adresse.adresse }},<br/>
+                            {{ adresse.postal }} - {{ adresse.city }} - {{ adresse.country   }}</p>
+                        <a href="{{ path('app_account_adress_edit',{'id':adresse.id}) }}" class="btn btn-primary">Modifier</a> | <a href="{{ path('app_account_adress_delete',{'id':adresse.id}) }}" class="btn btn-danger">Suprimer</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
