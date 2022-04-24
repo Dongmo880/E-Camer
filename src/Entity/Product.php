@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -57,6 +59,10 @@ class Product
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $isBest;
+
+
+
+
 
     public function getId(): ?int
     {
@@ -162,4 +168,8 @@ class Product
     public function __toString(){
         return $this->name;
     }
+
+
+
+
 }

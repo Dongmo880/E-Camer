@@ -69,10 +69,10 @@ class AccountAdressController extends AbstractController
     /**
      * @Route("/compte/adress/delete/{id}", name="app_account_adress_delete")
      */
-    public function delete(EntityManagerInterface $em,$id): Response
+    public function delete(EntityManagerInterface $em,$id,Request  $request): Response
     {
         $address = $em->getRepository(Address::class)->findOneById($id);
-        if(!$address && $address->getUser() == $this->getUser()){
+        if($this->isCsrfTokenValid('address_deletion_'. $address->getId(),$request->request->get('csrf_token'))){
             $em->remove($address);
             $em->flush();
         }

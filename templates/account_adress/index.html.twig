@@ -8,7 +8,7 @@
     <hr>
     {% if app.user.addresses|length == 0 %}
         <p class="text-center">
-            Vous n'avez pas encore ajouté d'adresse dans votre compte classe. Pour en ajoutez veuillez <a href="#" class="text-decoration-none">cliquer sur ce lien</a><br/>
+            Vous n'avez pas encore ajouté d'adresse dans votre compte classe. Pour en ajoutez veuillez <a href="{{ path('app_account_adress_add') }}" class="text-decoration-none">cliquer sur ce lien</a><br/>
         </p>
     {% endif %}
     <div class="row">
@@ -19,7 +19,12 @@
                         <h5 class="card-title">{{ adresse.name }}</h5>
                         <p class="card-text">{{ adresse.adresse }},<br/>
                             {{ adresse.postal }} - {{ adresse.city }} - {{ adresse.country   }}</p>
-                        <a href="{{ path('app_account_adress_edit',{'id':adresse.id}) }}" class="btn btn-primary">Modifier</a> | <a href="{{ path('app_account_adress_delete',{'id':adresse.id}) }}" class="btn btn-danger">Suprimer</a>
+                        <a href="{{ path('app_account_adress_edit',{'id':adresse.id}) }}" class="btn btn-primary">Modifier</a> |  <a href="#" onclick="event.preventDefault(); confirm('Are you sure')&& document.getElementById('js-address-delete-form').submit();" class="btn btn-danger">Delete</a>
+
+                        <form action="{{path('app_account_adress_delete',{id:adresse.id})}}" id="js-address-delete-form" method="POST" style="display: none;" >
+                            <input type="hidden" name="csrf_token" id="" value="{{csrf_token('address_deletion_'~adresse.id)}}">
+                            <input type="hidden" name="_method" id="" value="DELETE">
+                        </form>
                     </div>
                 </div>
             </div>
