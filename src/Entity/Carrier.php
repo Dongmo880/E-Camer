@@ -66,10 +66,15 @@ class Carrier
         return $this->price;
     }
 
-    public function setPrice(float $price): self
+    public function setPrice(float $price): Carrier
     {
         $this->price = $price;
-
         return $this;
+
+
+    }
+    public function __toString()
+    {
+        return $this->getName().'[br]'.$this->getDescription().'[br]'.number_format(($this->getPrice()/100),2,',','.').'€';
     }
 }
