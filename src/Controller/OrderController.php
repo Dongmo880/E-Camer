@@ -51,7 +51,7 @@ class OrderController extends AbstractController
         $form->handleRequest($request);
 
         if( $form->isSubmitted() && $form->isValid() ){
-            $date = new \DateTime();
+            $date = new \DateTime('now');
             $carriers = $form->get('carrier')->getData();
             $delivery = $form->get('addresses')->getData();
             $delivery_content = $delivery->getFirstname().''.$delivery->getLastname();
@@ -75,6 +75,7 @@ class OrderController extends AbstractController
             $order->setIsPaid(0);
             $this->em->persist($order);
 
+            //mise en place de stripe
             foreach ($cart->getFull() as $product){
                 $orderDetails = new OrderDetails();
                 $orderDetails->setMyOrder($order);
@@ -83,13 +84,18 @@ class OrderController extends AbstractController
                 $orderDetails->setPrice($product['product']->getPrice());
                 $orderDetails->setTotal($product['product']->getPrice()*$product['quantity']);
                 $this->em->persist($orderDetails);
+
+
             }
-            $this->em->flush();
+            //$this->em->flush();
+
+
+
 
             return $this->render('order/add.html.twig',[
                 'cart'=>$cart->getFull(),
                 'carrier'=>$carriers,
-                'delivery'=>$delivery_content
+                'delivery'=>$delivery_content,
             ]);
         }
         return $this->redirectToRoute('app_cart');

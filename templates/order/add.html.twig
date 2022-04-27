@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Passer ma commande{% endblock %}
+{% block javascript %}
+    <script src="https://js.stripe.com/v3/">
 
+    </script>
+{% endblock %}
 {% block body %}
      <h2>Mon Recapitulatif</h2>
      <p>Verifier votre commande avant de la passser</p>
@@ -54,9 +58,33 @@
                <b>Frais livraison : {{ (carrier.price/100) |number_format(2,',','.') }} €</b> <br>
                <hr>
                <b>Total: {{ ((total/100)+(carrier.price/100)) |number_format(2,',' ,'.') }}€  </b><br>
-
-               <a href="#" class="btn btn-success btn-block font-weight-bold mt-3">Payer ma commande | {{ ((total/100)+(carrier.price/100)) |number_format(2,',' ,'.') }}€</a>
+               <a class="btn btn-success btn-block font-weight-bold mt-3" id="checkout-button">Payer ma commande | {{ ((total/100)+(carrier.price/100)) |number_format(2,',' ,'.') }}€</a>
           </div>
-
      </div>
+{% endblock %}
+{% block script %}
+     <script type="text/javascript">
+          var stripe = Stripe("pk_test_51KtCffJLqpFTOX1xu1prebIfOg7XOmphktDT1PGyyFb8pMXgqPxWmPRhvPJ9JTBZGhW9ShPAF95UbFOaSGD1bGDD00Vw6PFKEe");
+          var CheckoutBouton = document.getElementById("checkout-button")
+          CheckoutBouton.addEventListener("click",function () {
+               fetch("/commande/create-session",{
+                    method: "POST",
+               })
+               .then(function (response){
+                    return response.json();
+               })
+               .then(function (session){
+                    return stripe.redirectToCheckout({sessionId: session.id});
+               })
+               .then(function (result){
+                    if(result.error){
+                         alert(result.error.message);
+                    }
+               })
+               .catch(function (error){
+                    console.error("Error",error);
+               });
+
+          });
+     </script>
 {% endblock %}
