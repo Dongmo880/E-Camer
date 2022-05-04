@@ -11,10 +11,6 @@
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/bootstrap.min.css ') }}" rel="stylesheet">
-    {% block javascript %}
-
-    {% endblock %}
-
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -60,7 +56,9 @@
 </main>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="{{ asset('assets/js/bootstrap.bundle.js ') }}"></script>
-</body>
-{% block script %}
+{% block javascripts %}
+
 {% endblock %}
+</body>
+
 </html>
