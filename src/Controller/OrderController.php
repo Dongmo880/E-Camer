@@ -21,7 +21,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/order", name="app_order")
+     * @Route("order", name="app_order")
      */
     public function index(Cart $cart,Request $request): Response
     {
@@ -40,7 +40,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("recapitulatif",name="app_order_recap",methods={"POST"})
+     * @Route("/recapitulatif",name="app_order_recap",methods={"POST"})
      */
 
     public function add(Request $request,Cart  $cart)
@@ -69,6 +69,8 @@ class OrderController extends AbstractController
             $order = new Order();
             $order->setUser($this->getUser());
             $order->setCreatedAt($date);
+            $reference = $date->format('dmY').'-'.uniqid();
+            $order->setReference($reference);
             $order->setCarrierName($carriers->getName());
             $order->setCarrierPrice($carriers->getPrice());
             $order->setDelivery($delivery_content);
@@ -87,15 +89,12 @@ class OrderController extends AbstractController
 
 
             }
-            //$this->em->flush();
-
-
-
-
+            $this->em->flush();
             return $this->render('order/add.html.twig',[
                 'cart'=>$cart->getFull(),
                 'carrier'=>$carriers,
                 'delivery'=>$delivery_content,
+                'reference'=>$order->getReference()
             ]);
         }
         return $this->redirectToRoute('app_cart');

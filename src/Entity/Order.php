@@ -56,6 +56,18 @@ class Order
      */
     private $CarrierPrice;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $reference;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $stripSessionId;
+
+
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
@@ -176,4 +188,32 @@ class Order
         }
         return $total ;
     }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getStripSessionId(): ?string
+    {
+        return $this->stripSessionId;
+    }
+
+    public function setStripSessionId(?string $stripSessionId): self
+    {
+        $this->stripSessionId = $stripSessionId;
+
+        return $this;
+    }
+
+
+
+
 }

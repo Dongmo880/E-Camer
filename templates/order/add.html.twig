@@ -1,11 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Passer ma commande{% endblock %}
-{% block javascript %}
-    <script src="https://js.stripe.com/v3/">
-
-    </script>
-{% endblock %}
 {% block body %}
      <h2>Mon Recapitulatif</h2>
      <p>Verifier votre commande avant de la passser</p>
@@ -62,19 +57,25 @@
           </div>
      </div>
 {% endblock %}
-{% block script %}
+{% block javascripts %}
+     <script src="https://js.stripe.com/v3/" type="text/javascript"></script>
      <script type="text/javascript">
-          var stripe = Stripe("pk_test_51KtCffJLqpFTOX1xu1prebIfOg7XOmphktDT1PGyyFb8pMXgqPxWmPRhvPJ9JTBZGhW9ShPAF95UbFOaSGD1bGDD00Vw6PFKEe");
+          var stripe =  Stripe("pk_test_51KtCffJLqpFTOX1xu1prebIfOg7XOmphktDT1PGyyFb8pMXgqPxWmPRhvPJ9JTBZGhW9ShPAF95UbFOaSGD1bGDD00Vw6PFKEe");
           var CheckoutBouton = document.getElementById("checkout-button")
           CheckoutBouton.addEventListener("click",function () {
-               fetch("/commande/create-session",{
+               fetch("/commande/create-session/{{reference}}",{
                     method: "POST",
                })
                .then(function (response){
                     return response.json();
                })
-               .then(function (session){
-                    return stripe.redirectToCheckout({sessionId: session.id});
+               .then(function(session){
+                    if(session.error === 'order'){
+                         window.location.replace('{{ path('app_order') }}')
+                    }else{
+                         return stripe.redirectToCheckout({sessionId: session.id});
+                    }
+
                })
                .then(function (result){
                     if(result.error){
@@ -82,7 +83,7 @@
                     }
                })
                .catch(function (error){
-                    console.error("Error",error);
+                    // console.error("error",error);
                });
 
           });
