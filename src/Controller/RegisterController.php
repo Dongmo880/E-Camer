@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\Mail;
 use App\Entity\User;
 use App\Form\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,18 +23,27 @@ class RegisterController extends AbstractController
         $form = $this->createForm(RegisterType::class,$user);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
-            $em->persist($user);
-            $em->flush();
-            $this->addFlash('sucsess','Inscription resussite');
-            return $this->redirectToRoute('app_home');
+            $search_email = $em->getRepository(User::class)->findOneByEmail($user->getEmail());
+            if(!$search_email){
+                $user->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
+                $em->persist($user);
+                $em->flush();
+                //envoie email à utilisateur
+                $mail = new Mail();
+                $content = "Bonjour"." ".$user->getFirstname()."<br/> Bienvenue sur E-Camer à fin de commencé vos achats veuillez cliquez sur ce lien pour finaliser votre inscrption Merci";
+                $mail->send($user->getEmail(),$user->getFirstname(),'E-camer Inscription',$content);
 
-
+                $this->addFlash('success','Mail Inscription à été envoyé');
+                return $this->redirectToRoute('app_home');
+            }
+            else{
+                $this->addFlash('success','utilisateur existe deja');
+            }
         }
         return $this->render('register/register.html.twig',[
             'form'=>$form->createView()
